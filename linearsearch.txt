@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int i;
+    int a[5]={2,3,4,10,40};
+    int key=4;
+    for(i=0;i<=5;i++){
+        if(a[i]==key){
+            break;
+        }
+    }  
+    if(a[i]==key){
+        cout<<"The element is found at location "<<i;
+    }
+    else{
+        cout<<"The element is not found";
+    }
+
+    return 0;
+}
+
+
+
+OUTPUT
+The element is found at location 2
