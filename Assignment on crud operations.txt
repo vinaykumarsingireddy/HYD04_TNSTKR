@@ -1,0 +1,170 @@
+SQl Backend code
+----------------
+create database tkr;
+create table employee(emp_id int,emp_name varchar(200),emp_mailid varchar(200),Date_Of_Joining date);
+Java code on crud operations
+----------------------------
+package dbconnection;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class Assignment {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("driver loaded");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tkr","root","vinay");
+			System.out.println("connection established");
+			PreparedStatement pst=con.prepareStatement("insert into employee values(?,?,?,?);");
+			System.out.println("enter employee id");
+			int eid=sc.nextInt();
+			System.out.println("enter employee name");
+			String name=sc.next();
+			System.out.println("enter employee mail id");
+			String mail=sc.next();
+			System.out.println("enter employee date of joining");
+			String date=sc.next();
+			pst.setInt(1,eid);
+			pst.setString(2, name);
+			pst.setString(3, mail);
+			pst.setString(4, date);
+			int status=pst.executeUpdate();
+			if(status==1) {
+				System.out.println("Insertion is successful");
+			}else {
+				System.out.println("Insertion is not successful");
+			}
+			Statement stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from employee");
+			System.out.println("\n********************************************");
+			System.out.println("Employee Information");
+			System.out.println("********************************************");
+			ResultSetMetaData rsmd=rs.getMetaData();
+			System.out.println("\n--------------------------------------------");
+			System.out.println(rsmd.getColumnName(1)+": :"+rsmd.getColumnName(2)+": :"+rsmd.getColumnName(3)+": :"+rsmd.getColumnName(4));
+			System.out.println("\n--------------------------------------------");
+			while(rs.next()) {
+				System.out.println(rs.getInt(1)+" : :"+rs.getString(2)+": :"+rs.getString(3)+": :"+rs.getString(4));
+			}
+			pst=con.prepareStatement("update employee set emp_name=?,emp_mailid=?,Date_Of_Joining=? where emp_id=?;" );
+			System.out.println("enter employee id to be updted");
+			eid=sc.nextInt();
+			System.out.println("enter employee name to be updated");
+			name=sc.next();
+			System.out.println("enter employee mailid to be updated");
+			mail=sc.next();
+			System.out.println("enter employee date of joining to be updated");
+			date=sc.next();
+			pst.setInt(4, eid);
+			pst.setString(1, name);
+			pst.setString(2, mail);
+			pst.setString(3, date);
+			status=pst.executeUpdate();
+			System.out.println("status: "+status);
+			if(status>=1) {
+				System.out.println("update is successful");
+			}else {
+				System.out.println("update is unsuccessful");
+			}
+			pst=con.prepareStatement("delete from employee where emp_id=?;");
+			System.out.println("enter id to be deleted");
+			eid=sc.nextInt();
+			pst.setInt(1, eid);
+			status=pst.executeUpdate();
+			if(status>=1) {
+				System.out.println("delete is successful");
+			}else {
+				System.out.println("delete is unsuccessful");
+			}
+			stmt=con.createStatement();
+			rs=stmt.executeQuery("select * from employee");
+			System.out.println("\n********************************************");
+			System.out.println("Employee Information");
+			System.out.println("********************************************");
+			rsmd=rs.getMetaData();
+			System.out.println("\n--------------------------------------------");
+			System.out.println(rsmd.getColumnName(1)+": :"+rsmd.getColumnName(2)+": :"+rsmd.getColumnName(3)+": :"+rsmd.getColumnName(4));
+			System.out.println("\n--------------------------------------------");
+			while(rs.next()) {
+				System.out.println(rs.getInt(1)+" : :"+rs.getString(2)+": :"+rs.getString(3)+": :"+rs.getString(4));
+			}
+ 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}
+output:
+-------
+driver loaded
+connection established
+enter employee id
+9
+enter employee name
+ravi
+enter employee mail id
+ravi@gmail.com
+enter employee date of joining
+2002-08-07
+Insertion is successful
+
+********************************************
+Employee Information
+********************************************
+
+--------------------------------------------
+emp_id: :emp_name: :emp_mailId: :Date_Of_Joining
+
+--------------------------------------------
+1 : :vinay: :vinay@gmail.com: :2002-08-20
+2 : :pranay: :pranay@gmail.com: :1999-06-05
+3 : :sanjay: :sanjay@gmail.com: :2002-08-01
+4 : :harish: :harish@gmail.com: :2002-04-05
+5 : :prashanth: :prashanth@gmail.com: :2023-10-09
+7 : :akash: :akash@gmail.com: :2002-09-08
+8 : :abhilash: :abhilash@gmail.com: :2002-05-09
+9 : :ravi: :ravi@gmail.com: :2002-08-07
+enter employee id to be updted
+2
+enter employee name to be updated
+saketh
+enter employee mailid to be updated
+saketh@gmail.com
+enter employee date of joining to be updated
+2002-07-09
+status: 1
+update is successful
+enter id to be deleted
+3
+delete is successful
+
+********************************************
+Employee Information
+********************************************
+
+--------------------------------------------
+emp_id: :emp_name: :emp_mailId: :Date_Of_Joining
+
+--------------------------------------------
+1 : :vinay: :vinay@gmail.com: :2002-08-20
+2 : :saketh: :saketh@gmail.com: :2002-07-09
+4 : :harish: :harish@gmail.com: :2002-04-05
+5 : :prashanth: :prashanth@gmail.com: :2023-10-09
+7 : :akash: :akash@gmail.com: :2002-09-08
+8 : :abhilash: :abhilash@gmail.com: :2002-05-09
+9 : :ravi: :ravi@gmail.com: :2002-08-07
+
