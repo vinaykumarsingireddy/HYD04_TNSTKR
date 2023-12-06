@@ -1,7 +1,13 @@
-package com.tns.entity;
+package com.springboot.PlacementManagementSystem.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /* Created by- Singireddy Vinay Kumar
@@ -11,15 +17,26 @@ import jakarta.persistence.Table;
 @Table(name="student")
 public class Student {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	long id;
+	
 	String name;
+	
+	@ManyToOne
+	@JoinColumn(name="college_id")
 	College college;
+	
 	long roll;
 	String qualification;
 	String course;
 	int year;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="certificate_id")
 	Certificate certificate;
 	long hallTicketNo;
+	public Student() {
+		
+	}
 	public Student(long id, String name, College college, long roll, String qualification, String course, int year,
 			Certificate certificate, long hallTicketNo) {
 		this.id = id;
