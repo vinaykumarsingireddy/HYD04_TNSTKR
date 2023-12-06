@@ -1,18 +1,15 @@
 /* Created by- Singireddy Vinay Kumar
  * Date Created-23/11/2023
  */
-package com.tns.Repository;
+package com.springboot.PlacementManagementSystem.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tns.entity.Student;
+import com.springboot.PlacementManagementSystem.Entity.Student;
 
-public interface IStudentRepository extends JpaRepository<Student,Long> {
-	Student addStudent(Student student);
-	Student updateStudent(Student student);
-	Student searchStudentById(long id);
-	Student searchStudentByHallTicket(long ticketNo);
-	Student deleteStudent(long id);
-	
-
+public interface IStudentRepository extends JpaRepository<Student, Long> {
+	Student findById(long id);
+    Student findByHallTicketNo(long ticketNo);
+    Student findByName(String name);
+    Student deleteById(long id);
 }
